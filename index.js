@@ -5,9 +5,8 @@ app.use(express.static('public'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
+const { Sequelize } = require('sequelize');
 
 
 
-
-
-app.listen(4000, ()=>{ console.log('App listening on port 4000')})
+app.listen(4001, ()=>{ console.log('App listening on port 4001')})
