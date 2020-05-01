@@ -15,8 +15,8 @@ var Sequelize = require('sequelize');
 const loginController = require('./controllers/loginUser')
 app.get('/auth/login',loginController)
 
-const registerController = require('./controllers/registerUser')
-app.get('/auth/register',registerController)
+const registerUserController = require('./controllers/registerUser')
+app.get('/auth/register',registerUserController)
 
 const newUserController = require('./controllers/newUser')
 app.post('/users/register',newUserController)
