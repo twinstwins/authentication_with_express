@@ -1,6 +1,7 @@
 const express = require('express')
 const app = new express()
 const ejs = require('ejs');
+app.set('view engine', 'ejs')
 app.use(express.static('public'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
@@ -11,6 +12,8 @@ const bcrypt = require('bcrypt');
 var Sequelize = require('sequelize');
 
 
+const loginController = require('./controllers/loginUser')
+app.get('/user/login',loginController)
 
 
 app.listen(4001, ()=>{ console.log('App listening on port 4001')})
