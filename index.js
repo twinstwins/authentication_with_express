@@ -5,7 +5,11 @@ app.use(express.static('public'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-const { Sequelize } = require('sequelize');
+var path = require('path');
+var session = require('express-session');
+const bcrypt = require('bcrypt');
+var Sequelize = require('sequelize');
+
 
 
 
