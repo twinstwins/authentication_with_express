@@ -13,7 +13,11 @@ var Sequelize = require('sequelize');
 
 
 const loginController = require('./controllers/loginUser')
-app.get('/user/login',loginController)
+app.get('/auth/login',loginController)
+
+const registerController = require('./controllers/registerUser')
+app.get('/auth/register',registerController)
+
 
 
 app.listen(4001, ()=>{ console.log('App listening on port 4001')})
