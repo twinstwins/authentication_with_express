@@ -18,6 +18,9 @@ app.get('/auth/login',loginController)
 const registerController = require('./controllers/registerUser')
 app.get('/auth/register',registerController)
 
+const newUserController = require('./controllers/newUser')
+app.post('/users/register',newUserController)
+
 
 
 app.listen(4001, ()=>{ console.log('App listening on port 4001')})
