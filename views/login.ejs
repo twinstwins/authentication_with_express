@@ -6,6 +6,9 @@
 <div class="container">
   <form method="POST" action="/users/login"  >
       <h2>Log in </h2>
+       <!-- <input type="hidden" name="_csrf" value="<%=　csrfToken  %>"> -->
+
+       <input type="hidden" name="_csrf" value="<%=　csrfToken  %>+error_chords">
 
       <input name="email" type="text" class="form-control" placeholder="Email Address"
               autofocus="true"/>
