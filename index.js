@@ -6,6 +6,7 @@ app.use(express.static('public'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
+var cookieParser = require('cookie-parser')
 
 var session = require('express-session');
 app.use(session({
@@ -25,18 +26,20 @@ app.use("*",(req, res, next) => {
   next()
 });
 
-var cookieParser = require('cookie-parser')
 var csrf = require('csurf')
 var csrfProtection = csrf({ cookie: true })
 var parseForm = bodyParser.urlencoded({ extended: false })
 app.use(cookieParser())
 
-
 const homeController = require('./controllers/home')
 app.get('/',homeController)
 
 const loginController = require('./controllers/login')
-app.get('/auth/login',loginController)
+app.get('/auth/login',csrfProtection,loginController)
+
+const loginUserController = require('./controllers/loginUser')
+app.post('/users/login',parseForm,csrfProtection,loginUserController)
+
 
 const registerUserController = require('./controllers/registerUser')
 app.get('/auth/register',registerUserController)
@@ -44,8 +47,6 @@ app.get('/auth/register',registerUserController)
 const createUserController = require('./controllers/createUser')
 app.post('/users/register',createUserController)
 
-const loginUserController = require('./controllers/loginUser')
-app.post('/users/login',loginUserController)
 
 const postController = require('./controllers/post')
 app.get('/post',postController)
