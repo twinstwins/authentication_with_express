@@ -6,20 +6,47 @@ app.use(express.static('public'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-var path = require('path');
+
 var session = require('express-session');
-const bcrypt = require('bcrypt');
+app.use(session({
+  secret: 'cocteau twins',
+  saveUninitialized: true,
+  resave: true
+}));
+
 var Sequelize = require('sequelize');
+var models = require('./models')
+
+const bcrypt = require('bcrypt');
 
 
-const loginController = require('./controllers/loginUser')
+global.loggedIn = null;
+app.use("*",(req, res, next) => {
+  loggedIn = req.session.userId;
+  next()
+});
+
+
+const homeController = require('./controllers/home')
+app.get('/',homeController)
+
+const loginController = require('./controllers/login')
 app.get('/auth/login',loginController)
 
 const registerUserController = require('./controllers/registerUser')
 app.get('/auth/register',registerUserController)
 
-const newUserController = require('./controllers/newUser')
-app.post('/users/register',newUserController)
+const createUserController = require('./controllers/createUser')
+app.post('/users/register',createUserController)
+
+const loginUserController = require('./controllers/loginUser')
+app.post('/users/login',loginUserController)
+
+const postController = require('./controllers/post')
+app.get('/post',postController)
+
+const logoutController = require('./controllers/logout')
+app.get('/auth/logout',logoutController)
 
 
 
