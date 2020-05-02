@@ -16,7 +16,6 @@ app.use(session({
 
 var Sequelize = require('sequelize');
 var models = require('./models')
-
 const bcrypt = require('bcrypt');
 
 
@@ -25,6 +24,12 @@ app.use("*",(req, res, next) => {
   loggedIn = req.session.userId;
   next()
 });
+
+var cookieParser = require('cookie-parser')
+var csrf = require('csurf')
+var csrfProtection = csrf({ cookie: true })
+var parseForm = bodyParser.urlencoded({ extended: false })
+app.use(cookieParser())
 
 
 const homeController = require('./controllers/home')
