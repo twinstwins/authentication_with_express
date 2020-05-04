@@ -6,17 +6,15 @@
 <div class="container">
   <form method="POST" action="/users/login"  >
       <h2>Log in </h2>
-       <!-- <input type="hidden" name="_csrf" value="<%=　csrfToken  %>"> -->
-
-       <input type="hidden" name="_csrf" value="<%=　csrfToken  %>+error_chords">
-
+      <h1 class="bg-danger"><%= errors %></h1>
       <input name="email" type="text" class="form-control" placeholder="Email Address"
               autofocus="true"/>
       <input name="password" type="password" class="form-control" placeholder="Password"/>
 
       <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
 
-      <div style="align-text:center;margin-bottom:10px;margin-top:15px"> Don't have an account? <a href='/register'>Sign up</a></div>
+      <div style="align-text:center;margin-bottom:10px;margin-top:15px"> ユーザー登録はしましたか？ <p><a href='/register'>ユーザー登録</a></p></div>
+      <div style="align-text:center;margin-bottom:10px;margin-top:15px"> パスワードをお忘れですか？ <p><a href='/resetpassword'>パスワードを変更</a></p></div>
   </form>
 </div>
 

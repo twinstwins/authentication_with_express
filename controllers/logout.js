@@ -1,5 +1,5 @@
 module.exports = (req, res) =>{
   console.log("ログアウトしました")
   req.session.destroy(() =>{
-  res.redirect('/') }
+  res.render('../views/home',{errors: "ログアウトしました"}) }
 )}

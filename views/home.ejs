@@ -2,10 +2,12 @@
 <html lang="en" dir="ltr">
    <%- include('layouts/header'); -%>
   <body>
+    <% if(errors){ %>
+    <h1 class="bg-warning"><%= errors %></h1>
+    <% }%>
    <%- include('layouts/navbar'); -%>
-   <div class="container">
      <h1 class="text-center">ホーム画面</h1>
-   </div>
+
   <%- include('layouts/scripts'); -%>
   </body>
 </html>
