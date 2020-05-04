@@ -8,10 +8,7 @@ const bcrypt = require('bcrypt')
 module.exports = (req,res) => {
   console.log("！！！！！！！！！！！！！！POSTメソッド送信！！！！！！！！！！！！！！！！！！！！")
   var matched_users = models.User.findAll({
-     where:  Sequelize.or(
-             {name: req.body.name},
-             {email: req.body.email}
-         )
+     where:  ({email: req.body.email})
  });
  matched_users.then(function(users){
      if(users.length == 0){
@@ -27,7 +24,7 @@ module.exports = (req,res) => {
          });
      }
      else{
-         res.render('../views/register',{errors: "name or Email already in user"});
+         res.render('../views/register',{errors: "入力内容に誤りがあります",csrfToken: req.csrfToken()});
      }
  })
 };

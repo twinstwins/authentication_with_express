@@ -25,12 +25,12 @@ module.exports = (req,res) => {
             }
             else{
                 console.log("ユーザー登録にリダイレクト")
-                res.redirect('/auth/register');
+                res.render('../views/login',{errors: "パスワードが違います"});
             }
         }
         else{
         　  console.log("ログインにリダイレクト")
-            res.redirect('/auth/login');
+            res.render('../views/login',{errors: "入力に誤りがあります"});
         }
     });
 };

@@ -3,10 +3,13 @@
 <%- include('layouts/header'); -%>
 
 <body>
-<%= errors %>
+<h1 class="bg-danger"><%= errors %></h1>
 <div class="container">
       <form action="/users/register" method="POST" class="login-form"    >
         <h2 class="form-heading">Create your Account</h2>
+        <input type="hidden" name="_csrf" value="<%=　csrfToken  %>">
+        <!-- <input type="hidden" name="_csrf" value="<%=　csrfToken  %>+error_chords"> -->
+
         <input name="name" type="text" class="form-control" placeholder="Username" autofocus="true"/>
         <input name="email" type="text" class="form-control" placeholder="Email" autofocus="true"/>
         <input name="password" type="password" class="form-control" placeholder="Password" />
