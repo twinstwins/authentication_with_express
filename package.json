@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon index.js"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
     "@types/express-session": "^1.17.0",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
     "csurf": "^1.11.0",
@@ -25,9 +26,13 @@
     "express-session": "^1.17.1",
     "mysql2": "^2.1.0",
     "nodemailer": "^6.4.6",
+    "request": "^2.88.2",
     "sequelize": "^5.21.7"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "expect": "^26.0.0",
+    "mocha": "^7.1.2",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
   }
 }

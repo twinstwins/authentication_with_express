@@ -73,4 +73,7 @@ app.post('/forgot-password',forgotpasswordController)
 app.get('/reset-password',resetpasswordController_get)
 app.post('/reset-password',resetpasswordController_post)
 
+
+module.exports = app
+
 app.listen(4001, ()=>{ console.log('App listening on port 4001')})
