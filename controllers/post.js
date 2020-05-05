@@ -1,5 +1,5 @@
 module.exports = (req, res) =>{
-  if (req.session.userId) {
+  if (req.session.email) {
     console.log(req.session.url)
     res.render("../views/post");
   }

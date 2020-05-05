@@ -34,7 +34,7 @@ module.exports = async function(req, res, next) {
 
   var newPassword= bcrypt.hashSync(req.body.password1,3)
 
-  // 先にreturnしないためのawaitによる非同期処理
+  // 先にreturnしないためのawaitによる処理
   await models.User.update(
     {password: newPassword,},
     {where: {email: req.body.email}
