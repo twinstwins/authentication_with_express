@@ -65,6 +65,7 @@ module.exports = async function(req, res, next) {
       text: 'パスワードリセットのためには以下のリンクをクリックし、再設定を行ってください。\n\nhttp://'+process.env.DOMAIN+'/reset-password?token='+encodeURIComponent(token)+'&email='+req.body.email
   };
 
+  console.log(message)
   //send email
   transport.sendMail(message, function (err, info) {
      if(err) { console.log(err)}

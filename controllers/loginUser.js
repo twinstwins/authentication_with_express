@@ -19,7 +19,7 @@ module.exports = (req,res) => {
                 console.log("ログインに成功")
                 console.log(req.session.url)
                 if (req.session.url == undefined) {
-                  return res.render("../views/post");
+                  return res.redirect('/login-success');
                 }
                 res.redirect(req.session.url);
             }

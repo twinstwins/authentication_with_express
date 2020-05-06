@@ -4,8 +4,6 @@ const User = require('../models/user.js')
 const bcrypt = require('bcrypt')
 
 module.exports = (req,res) => {
-  console.log("！！！！！！！！！！！！！！POSTメソッド送信！！！！！！！！！！！！！！！！！！！！")
-
   // findAll([options]) -> Promise.<Array.<Instance>>
 var matched_users = models.User.findAll({
      where:  Sequelize.or({email: req.body.email})
@@ -28,7 +26,8 @@ var matched_users = models.User.findAll({
          }).then(function(){
              let newSession = req.session;
              newSession.email = req.body.email;
-             res.redirect('/');
+             res.render('../views/home',{errors: "ユーザー登録に成功"});
+
          });
      }
      else{

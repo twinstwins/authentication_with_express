@@ -71,6 +71,9 @@ app.get('/post',postController)
 app.get('/forgot-password', function(req, res, next) {
   res.render('./forgotpassword', { });
 });
+app.get('/login-success', function(req, res, next) {
+  res.render('./loginsuccess', { });
+});
 app.post('/forgot-password',forgotpasswordController)
 app.get('/reset-password',resetpasswordController_get)
 app.post('/reset-password',resetpasswordController_post)
