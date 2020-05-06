@@ -23,6 +23,7 @@ module.exports = async function(req, res, next) {
     }
   });
 
+// メールアドレスやトークンのパラメータをもたなければ失敗
   if (record == null) {
     return res.json({status: 'error', message: 'Token not found. Please try the reset password process again.'});
   }

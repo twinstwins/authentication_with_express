@@ -2,12 +2,12 @@ var models = require('../models')
 const User = require('../models/user')
 const ResetToken = require('../models/user')
 const crypto = require('crypto');
+require('dotenv').config()
 const nodemailer = require('nodemailer');
 const transport = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
     secure: false,
-    ignoreTLS: true,
     auth: {
        user: process.env.EMAIL_USER,
        pass: process.env.EMAIL_PASS
@@ -15,23 +15,19 @@ const transport = nodemailer.createTransport({
 });
 
 module.exports = async function(req, res, next) {
-  //ensure that you have a user with this email
+
+  //　受け取ったパラメータ(メールアドレス)と一致するユーザーがいるかどうかの確認
+  // もし空の場合でも、その情報を伝えることはしない
+  // 相手に伝えるとセキュリティ上の問題が発生する
   console.log(req.body.email)
   var email = await models.User.findOne({where: { email: req.body.email }});
   if (email == null) {
-  /**
-   * we don't want to tell attackers that an
-   * email doesn't exist, because that will let
-   * them use this form to find ones that do
-   * exist.
-   **/
     return res.json({status: 'ok'});
   }
-  /**
-   * Expire any tokens that were previously
-   * set for this user. That prevents old tokens
-   * from being used.
-   **/
+
+   // 過去に当該メールアドレスにセットされたトークンを再使用されないための操作
+   // usedの値は2つの値を取り、booleanのように扱う
+   // 0の場合は使用可能、1は使用不可を意味
   await models.ResetToken.update({
       used: 1
     },
@@ -41,14 +37,14 @@ module.exports = async function(req, res, next) {
       }
   });
 
-  //Create a random reset token
+// 認証用トークンの作成
   var token = crypto.randomBytes(64).toString('base64');
-  console.log(token)
-  //token expires after one hour
+
+// 期限切れを現在時刻から1時間後にセット
   var expireDate = new Date();
   expireDate.setDate(expireDate.getDate() + 1/24);
 
-  //insert token data into DB
+  // メールアドレスと結びつけてトークンをセット
   await models.ResetToken.create({
     email: req.body.email,
     expiration: expireDate,
@@ -56,17 +52,19 @@ module.exports = async function(req, res, next) {
     used: 0
   });
 
-  //create email
+  // メールの作成
+  // SMTPサーバーには Mailgun を使用
   const message = {
       from: process.env.SENDER_ADDRESS,
       to: req.body.email,
       replyTo: process.env.REPLYTO_ADDRESS,
       subject: process.env.FORGOT_PASS_SUBJECT_LINE,
+      // リセット用URLに、クエリパラメータを付加し、リセットの画面で使用する
       text: 'パスワードリセットのためには以下のリンクをクリックし、再設定を行ってください。\n\nhttp://'+process.env.DOMAIN+'/reset-password?token='+encodeURIComponent(token)+'&email='+req.body.email
   };
 
+// メールの送信と、その内容をコンソールに出力
   console.log(message)
-  //send email
   transport.sendMail(message, function (err, info) {
      if(err) { console.log(err)}
      else { console.log(info); }

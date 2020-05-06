@@ -26,26 +26,12 @@ app.use("*",(req, res, next) => {
   next()
 });
 
-
-
 var csrf = require('csurf')
 var csrfProtection = csrf({ cookie: true })
 var parseForm = bodyParser.urlencoded({ extended: false })
 app.use(cookieParser())
 
-require('dotenv').config()
-const nodemailer = require('nodemailer');
-const transport = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
-    auth: {
-       user: process.env.EMAIL_USER,
-       pass: process.env.EMAIL_PASS
-    }
-});
-
-
+// コントローラー
 const homeController = require('./controllers/home')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
@@ -56,23 +42,26 @@ const logoutController = require('./controllers/logout')
 const forgotpasswordController = require('./controllers/forgotpassword')
 const resetpasswordController_get = require('./controllers/resetpassword_get')
 const resetpasswordController_post = require('./controllers/resetpassword_post')
+const loginsuccessController = require('./controllers/loginsuccess')
 
+
+
+// ミドルウェア
 const redirectAuthUser = require('./middlewares/redirectAuthUser')
 const userEmailValidation = require('./middlewares/userEmailValidation')
 
-
 app.get('/',homeController)
-app.get('/auth/login',redirectAuthUser,loginController)
-app.post('/users/login',loginUserController)
-app.get('/auth/logout',logoutController)
 app.get('/auth/register',redirectAuthUser,csrfProtection,registerUserController)
 app.post('/users/register',userEmailValidation,parseForm,csrfProtection,createUserController)
+app.get('/auth/login',redirectAuthUser,loginController)
+app.post('/users/login',loginUserController)
+app.get('/login-success', loginsuccessController)
+app.get('/auth/logout',logoutController)
 app.get('/post',postController)
+
+// パスワードリセット用　ルーティング+コントローラー
 app.get('/forgot-password', function(req, res, next) {
   res.render('./forgotpassword', { });
-});
-app.get('/login-success', function(req, res, next) {
-  res.render('./loginsuccess', { });
 });
 app.post('/forgot-password',forgotpasswordController)
 app.get('/reset-password',resetpasswordController_get)
